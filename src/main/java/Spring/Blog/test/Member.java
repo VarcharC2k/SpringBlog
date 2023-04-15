@@ -1,13 +1,19 @@
 package Spring.Blog.test;
 
-public class Member {
-    private  int id;
-    private  String username;
-    private  String password;
-    private  String email;
+import lombok.*;
 
-    public Member() {
-    }
+//@Getter
+//@Setter
+@Data //Getter Setter 동시 완성
+//@AllArgsConstructor //모든 필드를 다 쓰는 생성자
+@NoArgsConstructor //빈생성자
+//@RequiredArgsConstructor //final 이 붙은 인자에 대하여만 쓰는 생성자 사용
+@Builder
+public class Member {
+    private int id;
+    private String username;
+    private String password;
+    private String email;
 
     public Member(int id, String username, String password, String email) {
         this.id = id;
@@ -16,35 +22,5 @@ public class Member {
         this.email = email;
     }
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }
