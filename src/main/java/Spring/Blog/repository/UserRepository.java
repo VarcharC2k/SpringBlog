@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 //자동으로 bean으로 등록이 됨 즉, @Repository가 생략 가능함
 public interface UserRepository extends JpaRepository<User, Integer> {
 
+
 }
