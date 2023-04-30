@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -89,4 +90,36 @@ public class DummyControllerTest {
        return users;
     }
 
+    //email과 password만 수정 가능하도록 로직을 추가한다.
+    //form이 아닌 Json에서 값을 받기 위해선 @RequestBody 어노테이션을 붙여주어야 함
+    @Transactional
+    @PutMapping("/dummy/user/{id}")
+    public User updateUser(@PathVariable int id, @RequestBody User requestUser){
+        System.out.println("id : " + id);
+        System.out.println("password : "+requestUser.getPassword());
+        System.out.println("email : " + requestUser.getEmail());
+
+        requestUser.setId(id);
+        //save는 보통 Insert에서 사용하지만 만약 DB에 파라미터 값이 있다면 Update를 수행해줌
+        //다만 이 경우 Null로 날아온 값은 모두 Null로 Update하기 때문에 주의가 필요하다
+        //따라서 일반적으로 Save기능으로 업데이트 하지 않는다.
+        //만약 save를 이용하여 Update 하려면 해당 유저의 Id 값으로 모든 데이터를 찾고 Null인 값을 채워주어야 한다.
+
+        //save를 이용한 Update 로직
+        User user = userRepository.findById(id).orElseThrow(()->{
+            return new IllegalArgumentException("수정에 실파해였습니다.");
+        });
+
+        user.setPassword(requestUser.getPassword());
+        user.setEmail(requestUser.getEmail());
+
+        //save 함수는 id를 전달하지 않으면 insert를 하고
+        //id를 전달하면 해당 id에 대한 데이터가 있으면 update를 수행
+        //save 함수는 id 전달시 해당 Id에 데이터가 없으면 insert를 수행
+//         userRepository.save(user);
+
+        //더티 체킹 :
+        return null;
+    }
 }
+
