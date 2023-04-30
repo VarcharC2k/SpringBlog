@@ -106,10 +106,13 @@ public class DummyControllerTest {
         //만약 save를 이용하여 Update 하려면 해당 유저의 Id 값으로 모든 데이터를 찾고 Null인 값을 채워주어야 한다.
 
         //save를 이용한 Update 로직
+
+        //Id를 이용한 user 오브젝트의 영속화
         User user = userRepository.findById(id).orElseThrow(()->{
             return new IllegalArgumentException("수정에 실파해였습니다.");
         });
 
+        //영속화 된 데이터를 변경시 변경을 감지하고 해당 데이터를 DB에 수정요청함
         user.setPassword(requestUser.getPassword());
         user.setEmail(requestUser.getEmail());
 
@@ -118,7 +121,8 @@ public class DummyControllerTest {
         //save 함수는 id 전달시 해당 Id에 데이터가 없으면 insert를 수행
 //         userRepository.save(user);
 
-        //더티 체킹 :
+        //@Trasaction 어노테이션 부여시 해당 메서드가 종료될 때 자동 Commit을 수행
+        //더티 체킹 : 영속화 된 데이터가 변경이 된 경우 자동으로 변경을 감지하고 해당 데이터를 DB에 수정하는 것
         return null;
     }
 }
