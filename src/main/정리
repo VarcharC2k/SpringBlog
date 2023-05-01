@@ -1,0 +1,27 @@
+1. Get 요청 = URL에 데이터를 담아 보내는 형태
+key = value의 형태, Body로 데이터를 담아 보내지 않음
+
+2. post, put, Delete 요청 (데이터를 변경하는 요청)
+데이터를 담아 보내야 할 것이 많음
+form 태그의 method = 'post'로 보내는 형태로 많이 사용
+다만, form 태그의 경우 get과 post만 가능하다(put과 Delete로 불가능)
+따라서 put과 Delete의 경우 자바스크립트로 요청을 함
+
+이 경우, 어떤 form과 자바 스크립트를 혼용 하게 되므로 통일을 하게 됨
+자바 스크립트로 AJAX 요청 + 데이터는 JSON으로 통일
+
+* form:form 태그 >> post, put, delete, get이 모두 가능한 태그
+
+스프링 컨트롤러는 key=value의 형태로 데이터가 날아오면 자동으로 파싱하여 병수에 담아줌
+또한 key=value 형태를 오브젝트의 형태로 파싱하여 담아 줄 수도 있음
+다만, 이 경우 반드시 Setter가 존재하여야 함
+
+Post 방식의 key=value를 x-www-form-urlencoded 형태로
+username = ssar
+password = 1234 라고 받았을 때
+해당 키 값이(username, password) 오브젝트의 변수명과 반드시 일치해야 함
+
+Key=Value가 아닌 형태로 데이터가 날아오면
+@RequestBody 어노테이션을 붙여 Sjon 데이터를 자바 오브젝트로 파싱하여야 한다
+
+혹은 form태그로 json 데이터를 요청하여야 한다
