@@ -10,4 +10,10 @@ public class BoardController {
     public String index(){
         return "index";
     }
+
+    @GetMapping("/home")
+    public String goHome() {
+        return "content/home";
+    }
+
 }
