@@ -4,6 +4,7 @@ import Spring.Blog.model.RoleType;
 import Spring.Blog.model.User;
 import Spring.Blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -109,7 +110,7 @@ public class DummyControllerTest {
 
         //Id를 이용한 user 오브젝트의 영속화
         User user = userRepository.findById(id).orElseThrow(()->{
-            return new IllegalArgumentException("수정에 실파해였습니다.");
+            return new IllegalArgumentException("수정에 실패하였습니다.");
         });
 
         //영속화 된 데이터를 변경시 변경을 감지하고 해당 데이터를 DB에 수정요청함
@@ -123,7 +124,21 @@ public class DummyControllerTest {
 
         //@Trasaction 어노테이션 부여시 해당 메서드가 종료될 때 자동 Commit을 수행
         //더티 체킹 : 영속화 된 데이터가 변경이 된 경우 자동으로 변경을 감지하고 해당 데이터를 DB에 수정하는 것
-        return null;
+        return user;
+    }
+
+    //Delete 로직 구성
+    @DeleteMapping("/dummy/user/{id}")
+    public String delete(@PathVariable int id){
+
+//        삭제시 id 유효성 검증
+        try{
+            userRepository.deleteById(id);
+        } catch (Exception e) {
+            return "삭제에 실패하였습니다. 등록되지 않은 유저입니다.";
+        }
+
+        return "삭제되었습니다. id : "+id;
     }
 }
 
