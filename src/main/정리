@@ -22,6 +22,6 @@ password = 1234 라고 받았을 때
 해당 키 값이(username, password) 오브젝트의 변수명과 반드시 일치해야 함
 
 Key=Value가 아닌 형태로 데이터가 날아오면
-@RequestBody 어노테이션을 붙여 Sjon 데이터를 자바 오브젝트로 파싱하여야 한다
+@RequestBody 어노테이션을 붙여 json 데이터를 자바 오브젝트로 파싱하여야 한다
 
 혹은 form태그로 json 데이터를 요청하여야 한다
