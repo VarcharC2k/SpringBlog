@@ -25,10 +25,11 @@
           <input class="form-check-input" type="checkbox"> Remember me
         </label>
       </div>
-      <button type="submit" class="btn btn-primary">로그인</button>
     </form>
+      <button id="btn-save" class="btn btn-primary">로그인</button>
 
 </div>
+
 
 <%@ include file="../layout/footer.jsp"%>
 
