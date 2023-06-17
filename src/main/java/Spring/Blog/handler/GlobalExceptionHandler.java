@@ -1,5 +1,7 @@
 package Spring.Blog.handler;
 
+import Spring.Blog.dto.ResponseDto;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +19,7 @@ public class GlobalExceptionHandler {
 //    }
 
     @ExceptionHandler(value = Exception.class)
-    public String allException(Exception e) {
-        return "<h2>" + e.getMessage() + "</h2>";
+    public ResponseDto<String > allException(Exception e) {
+        return new ResponseDto<String>(HttpStatus.INTERNAL_SERVER_ERROR.value(),e.getMessage());
     }
 }
