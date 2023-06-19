@@ -27,4 +27,9 @@ public class UserService {
 
         userRepository.save(user);
     }
+
+    @Transactional(readOnly = true) // readOnly true를 걸면 Select할 떄 트랜잭션 시작, 서비스 종료시에 트랜잭션 종료할때 정합성을 유지할 수 있음
+    public User login(User user) {
+        return userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
+    }
 }

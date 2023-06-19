@@ -4,6 +4,8 @@ import Spring.Blog.dto.ResponseDto;
 import Spring.Blog.model.RoleType;
 import Spring.Blog.model.User;
 import Spring.Blog.service.UserService;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -27,5 +29,16 @@ public class UserApiController {
         return new ResponseDto<Integer>(HttpStatus.OK.value(),1); //200 = 성공적으로 통신했다는 약어, OK를 날릴경우 200을 날림
         //1은 데이터베이스에서 리턴된 결과값으로 넣을 예정
         //자바오브젝트를 JSON으로 변환하여 리턴
+    }
+
+    @PostMapping("/api/user/login")
+    public ResponseDto<Integer> login(@RequestBody User user, HttpSession session) {
+        System.out.println("UserApiController : login 호출됨");
+        User principal = userService.login(user); //principal = 접근 주체
+
+        if (principal != null) {
+            session.setAttribute("principal", principal);
+        }
+        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
 }

@@ -23,7 +23,7 @@ dependencies {
 //	implementation 'org.springframework.boot:spring-boot-starter-security'
 	//jsp라이브러리
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
-	implementation 'javax.servlet:jstl'
+//	implementation 'javax.servlet:jstl'
 	//jsp라이브러리 종료
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
@@ -37,9 +37,10 @@ dependencies {
 	implementation 'org.springframework.security:spring-security-taglibs'
 	//JSTL
 //	implementation 'javax.servlet.jsp.jstl:jstl:1.2'
-	implementation 'jakarta.servlet:jakarta.servlet-api' //스프링부트 3.0 이상
-	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api' //스프링부트 3.0 이상
-	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl' //스프링부트 3.0 이상
+//	implementation 'jakarta.servlet:jakarta.servlet-api' //스프링부트 3.0 이상
+//	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api' //스프링부트 3.0 이상
+//	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl' //스프링부트 3.0 이상
+	implementation group: 'org.glassfish.web', name: 'jakarta.servlet.jsp.jstl', version: '2.0.0' //implementation group: 'javax.servlet', name: 'jstl', version: '1.2' 오류 해결
 }
 
 

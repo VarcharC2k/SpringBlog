@@ -4,16 +4,11 @@
 
 
 <div class="container">
-    <form action="/action_page.php">
+    <form action="">
       <div class="form-group">
         <label for="username">Username</label>
         <input type="text" class="form-control" placeholder="Enter Username" id="username">
       </div>
-
-      <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" class="form-control" placeholder="Enter email" id="email">
-        </div>
 
       <div class="form-group">
         <label for="password">Password:</label>
@@ -26,10 +21,10 @@
         </label>
       </div>
     </form>
-      <button id="btn-save" class="btn btn-primary">로그인</button>
+      <button id="btn-login" class="btn btn-primary">로그인</button>
 
 </div>
 
-
+<script src="/blog/js/user.js"></script>
 <%@ include file="../layout/footer.jsp"%>
 
