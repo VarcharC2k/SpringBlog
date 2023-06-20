@@ -19,6 +19,9 @@ public class UserApiController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private HttpSession session;
+
     @PostMapping("/api/user")
     public ResponseDto<Integer> save(@RequestBody User user){
         System.out.println("UserApiController : save 호출됨");
@@ -31,8 +34,9 @@ public class UserApiController {
         //자바오브젝트를 JSON으로 변환하여 리턴
     }
 
+    //전통적인 방식의 로그인
     @PostMapping("/api/user/login")
-    public ResponseDto<Integer> login(@RequestBody User user, HttpSession session) {
+    public ResponseDto<Integer> login(@RequestBody User user) {
         System.out.println("UserApiController : login 호출됨");
         User principal = userService.login(user); //principal = 접근 주체
 
@@ -41,4 +45,6 @@ public class UserApiController {
         }
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
+
+
 }
