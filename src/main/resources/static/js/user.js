@@ -23,7 +23,7 @@ let index = {
         //ajax가 통신을 성공하고 서버가  Json을 리턴해주면 자동으로 자바 오브젝트로 변환 해줌
         $.ajax({
             type: "POST",
-            url: "/blog/api/user",
+            url: "/api/user",
             data:JSON.stringify(data), //현재 data는 자바스크립트로 만들어진 오브젝트기 때문에 JAVA가 알아들을 수 있도록 JSON으로 변경하기 위해 Stringify 함수 사용
             //해당 data는 http의 body 데이터
             contentType: "application/json; charset=utf-8", // body데이터가 어던 타입인지(MIME)
@@ -31,7 +31,7 @@ let index = {
         }).done(function(resp){
             alert("회원 가입이 완료되었습니다.");
 //            console.log(resp);
-            location.href = "/blog";
+            location.href = "/";
         }).fail(function(error){
             alert(JSON.stringify(error));
         });
@@ -47,14 +47,14 @@ let index = {
 
             $.ajax({
                 type: "POST",
-                url: "/blog/api/user/login",
+                url: "/api/user/login",
                 data:JSON.stringify(data), //현재 data는 자바스크립트로 만들어진 오브젝트기 때문에 JAVA가 알아들을 수 있도록 JSON으로 변경하기 위해 Stringify 함수 사용
                 //해당 data는 http의 body 데이터
                 contentType: "application/json; charset=utf-8", // body데이터가 어던 타입인지(MIME)
                 dataType: "json" //요청을 서버로 해서 응답이 왔을 때의 데이터 타입(기본적으로 문자열), 해당 타입을 설정하면 타입이 맞게 오면 자동으로 자바스크립트 오브젝트로 변경
             }).done(function(resp){
                 alert("로그인이 완료되었습니다.");
-                location.href = "/blog";
+                location.href = "/";
             }).fail(function(error){
                 alert(JSON.stringify(error));
             });
