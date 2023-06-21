@@ -22,7 +22,8 @@ public class UserApiController {
     @Autowired
     private HttpSession session;
 
-    @PostMapping("/api/user")
+    //회원가입의 경우 인증이 필요 없기때문에 auth경로로 설정
+    @PostMapping("/auth/joinProc")
     public ResponseDto<Integer> save(@RequestBody User user){
         System.out.println("UserApiController : save 호출됨");
         //실제로 DB에 insert를 하고 아래에서 Retrun이 되면 됨
@@ -35,16 +36,17 @@ public class UserApiController {
     }
 
     //전통적인 방식의 로그인
-    @PostMapping("/api/user/login")
-    public ResponseDto<Integer> login(@RequestBody User user) {
-        System.out.println("UserApiController : login 호출됨");
-        User principal = userService.login(user); //principal = 접근 주체
+//    @PostMapping("/api/user/login")
+//    public ResponseDto<Integer> login(@RequestBody User user) {
+//        System.out.println("UserApiController : login 호출됨");
+//        User principal = userService.login(user); //principal = 접근 주체
+//
+//        if (principal != null) {
+//            session.setAttribute("principal", principal);
+//        }
+//        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+//    }
 
-        if (principal != null) {
-            session.setAttribute("principal", principal);
-        }
-        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
-    }
 
 
 }
