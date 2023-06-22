@@ -20,12 +20,13 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	//Spring Security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	//jsp라이브러리
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 //	implementation 'javax.servlet:jstl'
 	//jsp라이브러리 종료
-	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -33,7 +34,7 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	runtimeOnly('org.springframework.boot:spring-boot-devtools')
 	//추가 라이브러리
-	//spring security taglibs
+//	spring security taglibs
 	implementation 'org.springframework.security:spring-security-taglibs'
 	//JSTL
 //	implementation 'javax.servlet.jsp.jstl:jstl:1.2'
