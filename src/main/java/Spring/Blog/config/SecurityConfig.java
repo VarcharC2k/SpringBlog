@@ -13,16 +13,19 @@ import org.springframework.security.web.firewall.HttpFirewall;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Bean
-    BCryptPasswordEncoder encode() {
+    @Bean //Ioc가 되어 Spring이 관리
+    public BCryptPasswordEncoder encodePWD() {
+//        String encPassword = new BCryptPasswordEncoder().encode(); //Endcode를 통하여 들어온 String 값을 해쉬로 암호화 함
+
         return new BCryptPasswordEncoder();
     }
 
     @Bean
     SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable() //csrf 토큰 비활성화 (테스트 시 걸어두는게 좋음)
                 .authorizeHttpRequests()
-                    .requestMatchers("/auth/**","/WEB-INF/**")
+                    .requestMatchers("/","/auth/**","/WEB-INF/**","/js/**","/css/**","/image/**")
                     .permitAll()
                     .anyRequest()
                     .authenticated()

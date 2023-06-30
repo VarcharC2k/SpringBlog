@@ -31,7 +31,7 @@ let index = {
         }).done(function(resp){
             alert("회원 가입이 완료되었습니다.");
 //            console.log(resp);
-            location.href = "/";
+            location.href = "/auth/loginForm";
         }).fail(function(error){
             alert(JSON.stringify(error));
         });
@@ -59,7 +59,7 @@ let index = {
 //                alert(JSON.stringify(error));
 //            });
 
-        }
+//        }
 }
 
 index.init();
