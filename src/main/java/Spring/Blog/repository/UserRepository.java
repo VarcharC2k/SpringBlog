@@ -4,9 +4,14 @@ import Spring.Blog.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Optional;
+
 //DAO와 같은 역할
 //자동으로 bean으로 등록이 됨 즉, @Repository가 생략 가능함
 public interface UserRepository extends JpaRepository<User, Integer> {
+
+    //SELECT * FROM user WHERE username = ? 라는 쿼리와 동일
+    Optional<User> findByUsername(String username);
 
     //전통적인 방식의 로그인을 위한 함수 생성
     //JPA Naming 쿼리 전략
