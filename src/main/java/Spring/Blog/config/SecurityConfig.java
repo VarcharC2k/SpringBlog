@@ -3,6 +3,7 @@ import Spring.Blog.config.auth.PrincipalDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -56,6 +57,13 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+    public AuthenticationManager authenticationManager(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(principalDetailService).passwordEncoder(encodePWD());
+        System.out.println("비밀번호 매칭 확인");
+        return auth.build();
+    }
+
 
 //   @Bean
 //    public void configure(WebSecurity web) throws Exception {

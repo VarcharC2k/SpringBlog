@@ -18,6 +18,7 @@ public class PrincipalDetailService implements UserDetailsService {
 //    password 부분 처리는 알아서 하기 때문에, Username이 DB에 있는지만 확인해해주면 됨
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("유저명 확인 : " + username);
         User principal = userRepository.findByUsername(username)
                 .orElseThrow(() -> {
                     return new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다. : " + username);
