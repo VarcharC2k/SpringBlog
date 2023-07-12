@@ -36,6 +36,7 @@ public class SecurityConfig {
 //        auth.userDetailsService(principalDetailService).passwordEncoder(encodePWD());
 //    }
 
+
     //2차 로그인 패스워드 비교 테스트 코드
 //    @Bean
 //    public DaoAuthenticationProvider authenticationProvider(){
@@ -54,10 +55,10 @@ public class SecurityConfig {
 //                .build();
 //    }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-        return configuration.getAuthenticationManager();
-    }
+//    @Bean
+//    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+//        return configuration.getAuthenticationManager();
+//    }
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -82,13 +83,11 @@ public class SecurityConfig {
                 .formLogin(login -> login
                         .loginPage("/auth/loginForm")
                         .loginProcessingUrl("/auth/loginProc") //스프링 시큐리티가 해당 주소로 요청오는 로그인을 가로채서 대신 로그인 해줌
-                        .usernameParameter("username")
-                        .passwordParameter("password")
                         .defaultSuccessUrl("/", true)
 //                        .failureUrl("/")
                         .permitAll()
-                )
-                .logout(Customizer.withDefaults());
+                );
+//                .logout(Customizer.withDefaults());
 
         return http.build();
     }
