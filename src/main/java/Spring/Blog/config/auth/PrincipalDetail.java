@@ -1,6 +1,8 @@
 package Spring.Blog.config.auth;
 
 import Spring.Blog.model.User;
+import lombok.Data;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,6 +11,7 @@ import java.util.Collection;
 
 //스프링 시큐리티가 로그인 요청을 가로채고 로그인을 진행하고 완료가 되면 UserDetails 타입의 오브젝트를
 //스프링 스큐리티의 고유한 세션 저장소에 저장을 해준다.
+@Getter //유저정보를 Board쪽으로 넘기기 위해 Getter 생성
 public class PrincipalDetail implements UserDetails {
     private User user; //콤포지션 (객체를 품고 있는 것)
 
@@ -47,7 +50,7 @@ public class PrincipalDetail implements UserDetails {
 //    계정이 활성화(사용가능)인지 리턴한다 (true : 활성화)
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
     //계정이 가지고 있는 권한 목록을 리턴한다. (권한이 여러개 있을 수 있어서 루프를 돌아야 하지만

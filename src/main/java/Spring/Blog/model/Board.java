@@ -28,9 +28,8 @@ public class Board {
     @Lob //대용량 데이터 인서트시 사용
     private String content; //섬머노트 라이브러리 사용시 <html> 태그를 섞어서 넣기 때문에 크기가 커야함
 
-    @ColumnDefault("0")
+//    @ColumnDefault("0")
     private int count; //조회수
-
 
     //FetchType.Eager 과 Lazy 의 차이
     //Eager : 즉시 반환, 로딩 시 필요한 데이터를 즉시 반활 할 때 사용
