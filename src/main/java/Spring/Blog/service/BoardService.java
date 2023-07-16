@@ -6,6 +6,9 @@ import Spring.Blog.model.User;
 import Spring.Blog.repository.BoardRepository;
 import Spring.Blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +28,9 @@ public class BoardService {
         boardRepository.save(board);
     }
 
-    public List<Board> boardList() {
-        return boardRepository.findAll();
+
+    public Page<Board> boardList(Pageable pageable) {
+        return boardRepository.findAll(pageable);
     }
 
 }
