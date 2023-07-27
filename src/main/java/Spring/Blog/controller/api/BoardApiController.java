@@ -7,6 +7,7 @@ import Spring.Blog.model.User;
 import Spring.Blog.service.BoardService;
 import Spring.Blog.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import org.eclipse.tags.shaded.org.apache.regexp.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -30,5 +31,11 @@ public class BoardApiController {
     public ResponseDto<Integer> deleteByid(@PathVariable int id){
         boardService.boardDelete(id);
         return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
+    }
+
+    @PutMapping("/api/board/{id}")
+    public ResponseDto<Integer> update(@PathVariable int id, @RequestBody Board board) {
+        boardService.boardUpdate(id, board);
+        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
 }
