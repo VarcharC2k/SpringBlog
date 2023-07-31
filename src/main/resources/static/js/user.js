@@ -6,6 +6,9 @@ let index = {
 //        $("#btn-login").on("click",()=>{
 //            this.login();
 //            });
+        $("#btn-update").on("click",()=>{// function(){}을 사용하지 않고 ()=>{}를 사용하는 이유는 this를 바인딩 하기 위하여 사용
+        this.update();
+        });
     },
 
     save: function(){
@@ -60,6 +63,28 @@ let index = {
 //            });
 
 //        }
+    update: function(){
+        let data = {
+            id : $("#userId").val(),
+            password: $("#password").val(),
+            email: $("#email").val()
+        };
+
+        $.ajax({
+            type: "PUT",
+            url: "/userUpdate",
+            data:JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        }).done(function(resp){
+            alert("회원 수정이 완료되었습니다.");
+//            console.log(resp);
+            location.href = "/";
+        }).fail(function(error){
+            alert(JSON.stringify(error));
+        });
+
+    },
 }
 
 index.init();

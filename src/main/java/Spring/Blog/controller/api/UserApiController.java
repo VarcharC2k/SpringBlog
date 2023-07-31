@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,12 +26,12 @@ public class UserApiController {
 
     //회원가입의 경우 인증이 필요 없기때문에 auth경로로 설정
     @PostMapping("/auth/joinProc")
-    public ResponseDto<Integer> save(@RequestBody User user){
+    public ResponseDto<Integer> save(@RequestBody User user) {
         System.out.println("UserApiController : save 호출됨");
         //실제로 DB에 insert를 하고 아래에서 Retrun이 되면 됨
 //        int result = userService.join(user);
         userService.join(user);
-        return new ResponseDto<Integer>(HttpStatus.OK.value(),1); //200 = 성공적으로 통신했다는 약어, OK를 날릴경우 200을 날림
+        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1); //200 = 성공적으로 통신했다는 약어, OK를 날릴경우 200을 날림
         //1은 데이터베이스에서 리턴된 결과값으로 넣을 예정
         //자바오브젝트를 JSON으로 변환하여 리턴
     }
@@ -47,6 +48,9 @@ public class UserApiController {
 //        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
 //    }
 
-
-
+    @PutMapping("/userUpdate")
+    public ResponseDto<Integer> update(@RequestBody User user) {
+        userService.updateUser(user);
+        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+    }
 }
