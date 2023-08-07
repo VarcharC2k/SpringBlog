@@ -108,5 +108,8 @@ Request 요청(ex. http://localhgost:8000/login(Post), Body : username, password
 
 
 카카오톡 로그인 정보
+클라이언트 키 :
+6bb73ba206e135a83cd0d4243fb79ce7
 리다이렉트 url :
 http://localhost:8080/auth/kakao/callback
+
