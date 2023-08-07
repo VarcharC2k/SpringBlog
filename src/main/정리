@@ -107,3 +107,6 @@ Request 요청(ex. http://localhgost:8000/login(Post), Body : username, password
 > 영속성 컨텍스트로 응답 > JPA/Repository로 응답 > Service로 응답 > Transaction 종료 > 실제 DB Commit
 
 
+카카오톡 로그인 정보
+리다이렉트 url :
+http://localhost:8080/auth/kakao/callback
