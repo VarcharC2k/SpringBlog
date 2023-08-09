@@ -111,7 +111,7 @@ Request 요청(ex. http://localhgost:8000/login(Post), Body : username, password
 클라이언트 키 :
 6bb73ba206e135a83cd0d4243fb79ce7
 리다이렉트 url :
-http://localhost:8080/auth/kakao/callback
+http://localhost:8000/auth/kakao/callback
 
 OAuth2.0 개념 이해
 Open Auth >> 즉, 인증처리를 대신해주는 것
