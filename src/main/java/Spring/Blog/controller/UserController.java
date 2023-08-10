@@ -1,5 +1,9 @@
 package Spring.Blog.controller;
 
+import Spring.Blog.model.KakaoProfile;
+import Spring.Blog.model.OAuthToken;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -11,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+import java.sql.SQLOutput;
 
 
 //인증을 위한 auth 추가
@@ -66,6 +71,42 @@ public class UserController {
         ResponseEntity<String> response = rt.exchange("https://kauth.kakao.com/oauth/token", HttpMethod.POST,
                 kakaoTokenRequest, String.class);
 
-        return "카카오 인증 완료 : 토큰에 대한 응답 : " +  response;
+        //Gson, Json Simple, ObjectMapper 라이브러리 사용 가능 이중 objectMapper 사용
+        ObjectMapper obMapper = new ObjectMapper();
+
+        OAuthToken oAuthToken = null;
+        try {
+            oAuthToken = obMapper.readValue(response.getBody(), OAuthToken.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(oAuthToken.getAccess_token());
+
+        RestTemplate pfrt = new RestTemplate();
+
+        //HttpHeader 오브젝트 생성
+        HttpHeaders pfHeaders = new HttpHeaders();
+        pfHeaders.add("Authorization","Bearer "+ oAuthToken.getAccess_token());
+        pfHeaders.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+
+        HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest = new HttpEntity<>(pfHeaders);
+
+        //Http 요청하기 - Post 방식으로 - Response 변수의 응답을 받음
+        ResponseEntity<String> pfResponse = pfrt.exchange("https://kapi.kakao.com/v2/user/me", HttpMethod.POST,
+                kakaoProfileRequest, String.class);
+
+        ObjectMapper pfobMapper = new ObjectMapper();
+
+        KakaoProfile kakaoProfile = null;
+        try {
+            kakaoProfile = pfobMapper.readValue(pfResponse.getBody(), KakaoProfile.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("카카오 아이디 : " + kakaoProfile.getId());
+        System.out.println("카카오 이메일 : " + kakaoProfile.getKakao_account().getEmail());
+        return pfResponse.getBody();
     }
 }
