@@ -25,7 +25,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false,length = 30,unique = true) //Null값 들어올 수 없음, 최대 30자, 중복값 제거
+    @Column(nullable = false,length = 100,unique = true) //Null값 들어올 수 없음, 최대 30자, 중복값 제거
     private String username;
 
     @Column(nullable = false,length = 100)//Hash 변환을 위하여 넉넉하게 줌

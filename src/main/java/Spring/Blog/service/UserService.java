@@ -47,6 +47,14 @@ public class UserService {
 //        return userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
 //    }
 
+    @Transactional(readOnly = true)
+    public User findUser(String username) {
+        User user = userRepository.findByUsername(username).orElseGet(()->{
+            return new User();
+        }); //유저를 못찾으면 빈객체 반환
+        return user;
+    }
+
     @Transactional
     public void updateUser(User user) {
         // 수정시에는 영속성 컨텍스트 User 오브젝트를 영속화 시키고, 영속화 된 User 오브젝트를 수정해야 함(가장 좋은 방법)
