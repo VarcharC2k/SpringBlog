@@ -1,5 +1,6 @@
 package Spring.Blog.controller;
 
+import Spring.Blog.config.auth.PrincipalDetail;
 import Spring.Blog.model.KakaoProfile;
 import Spring.Blog.model.OAuthToken;
 import Spring.Blog.model.User;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+import java.security.Principal;
 import java.sql.SQLOutput;
 import java.util.UUID;
 
@@ -153,10 +155,13 @@ public class UserController {
             userService.join(kakaoUser);
         }
 
+
         //회원인 경우 로그인 처리
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(kakaoUser.getUsername(), cosKey));
         SecurityContextHolder.getContext().setAuthentication(authentication); // 세션에 만들어진 authentication 등록
+
+
         System.out.println("로그인 처리 완료");
 
         return "redirect:/";
