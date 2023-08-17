@@ -7,6 +7,7 @@ import Spring.Blog.model.User;
 import Spring.Blog.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -161,6 +162,40 @@ public class UserController {
                 new UsernamePasswordAuthenticationToken(kakaoUser.getUsername(), cosKey));
         SecurityContextHolder.getContext().setAuthentication(authentication); // 세션에 만들어진 authentication 등록
 
+
+        //메시지 보내기 로직
+        RestTemplate msgrt = new RestTemplate();
+
+        //HttpHeader 오브젝트 생성
+        HttpHeaders msgheaders = new HttpHeaders();
+        msgheaders.add("Content-Type","application/x-www-form-urlencoded");
+        msgheaders.add("Authorization", "Bearer "+ oAuthToken.getAccess_token());
+
+        //템블릿 오브젝트 생성
+        JSONObject urlObj = new JSONObject();
+        urlObj.put("web_url", "https://developers.kakao.com");
+        urlObj.put("mobile_web_url", "https://developers.kakao.com");
+
+        JSONObject templateObj = new JSONObject();
+        templateObj.put("object_type", "text");
+        templateObj.put("text", "테스트 메시지 입니다.");
+        templateObj.put("link",urlObj);
+
+        //HttpBody 오브젝트 생성
+        //원래는 바디에 넣을 데이터는 다 변수로 담아야 하지만, 테스트를 위해서 직접 박아넣음
+        MultiValueMap<String, String> msgparams = new LinkedMultiValueMap<>();
+        msgparams.add("template_object", templateObj.toString());
+
+        //HttpHeader와 HttpBody를 하나의 오브젝트에 담기
+        //exchange 함수가 HttpEntity를 받도록 되어있기 때문에 해당 오브젝트로 넣어줌
+        HttpEntity<MultiValueMap<String, String>> msgTokenRequest = new HttpEntity<>(msgparams, msgheaders);
+
+        //Http 요청하기 - Post 방식으로 - Response 변수의 응답을 받음
+        ResponseEntity<String> msgResponse = msgrt.exchange("https://kapi.kakao.com/v2/api/talk/memo/default/send", HttpMethod.POST,
+                msgTokenRequest, String.class);
+
+
+        System.out.println(msgResponse.getBody());
 
         System.out.println("로그인 처리 완료");
 

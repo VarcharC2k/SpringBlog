@@ -42,6 +42,8 @@ dependencies {
 	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api' //스프링부트 3.0 이상
 	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl' //스프링부트 3.0 이상
 //	implementation group: 'org.glassfish.web', name: 'jakarta.servlet.jsp.jstl', version: '2.0.0' //implementation group: 'javax.servlet', name: 'jstl', version: '1.2' 오류 해결
+	//Json object
+	implementation 'org.json:json:20200518'
 }
 
 
