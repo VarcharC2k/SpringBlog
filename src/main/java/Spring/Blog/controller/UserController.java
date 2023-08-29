@@ -1,6 +1,6 @@
 package Spring.Blog.controller;
 
-import Spring.Blog.config.auth.PrincipalDetail;
+import Spring.Blog.config.auth.PrincipalDetailService;
 import Spring.Blog.model.KakaoProfile;
 import Spring.Blog.model.OAuthToken;
 import Spring.Blog.model.User;
@@ -17,17 +17,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
-import java.security.Principal;
-import java.sql.SQLOutput;
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.Collection;
 
 
 //인증을 위한 auth 추가
@@ -43,6 +42,8 @@ public class UserController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private PrincipalDetailService principalDetailService;
 
     @Autowired
     private UserService userService;
@@ -156,49 +157,52 @@ public class UserController {
             userService.join(kakaoUser);
         }
 
+        Collection<GrantedAuthority> collectors = new ArrayList<>();
+        collectors.add(() -> {
+            return "ROLE_" + originUser.getRole(); //ex) ROLE_USER
+        });
+
 
         //회원인 경우 로그인 처리
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(kakaoUser.getUsername(), cosKey));
+                new UsernamePasswordAuthenticationToken(principalDetailService.loadUserByUsername(kakaoUser.getUsername()), cosKey,collectors));
         SecurityContextHolder.getContext().setAuthentication(authentication); // 세션에 만들어진 authentication 등록
 
-
-        //메시지 보내기 로직
-        RestTemplate msgrt = new RestTemplate();
-
-        //HttpHeader 오브젝트 생성
-        HttpHeaders msgheaders = new HttpHeaders();
-        msgheaders.add("Content-Type","application/x-www-form-urlencoded");
-        msgheaders.add("Authorization", "Bearer "+ oAuthToken.getAccess_token());
-
-        //템블릿 오브젝트 생성
-        JSONObject urlObj = new JSONObject();
-        urlObj.put("web_url", "https://developers.kakao.com");
-        urlObj.put("mobile_web_url", "https://developers.kakao.com");
-
-        JSONObject templateObj = new JSONObject();
-        templateObj.put("object_type", "text");
-        templateObj.put("text", "테스트 메시지 입니다.");
-        templateObj.put("link",urlObj);
-
-        //HttpBody 오브젝트 생성
-        //원래는 바디에 넣을 데이터는 다 변수로 담아야 하지만, 테스트를 위해서 직접 박아넣음
-        MultiValueMap<String, String> msgparams = new LinkedMultiValueMap<>();
-        msgparams.add("template_object", templateObj.toString());
-
-        //HttpHeader와 HttpBody를 하나의 오브젝트에 담기
-        //exchange 함수가 HttpEntity를 받도록 되어있기 때문에 해당 오브젝트로 넣어줌
-        HttpEntity<MultiValueMap<String, String>> msgTokenRequest = new HttpEntity<>(msgparams, msgheaders);
-
-        //Http 요청하기 - Post 방식으로 - Response 변수의 응답을 받음
-        ResponseEntity<String> msgResponse = msgrt.exchange("https://kapi.kakao.com/v2/api/talk/memo/default/send", HttpMethod.POST,
-                msgTokenRequest, String.class);
-
-
-        System.out.println(msgResponse.getBody());
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getDetails());
+//
+//        //메시지 보내기 로직
+//        RestTemplate msgrt = new RestTemplate();
+//
+//        //HttpHeader 오브젝트 생성
+//        HttpHeaders msgheaders = new HttpHeaders();
+//        msgheaders.add("Content-Type","application/x-www-form-urlencoded");
+//        msgheaders.add("Authorization", "Bearer "+ oAuthToken.getAccess_token());
+//
+//        //템블릿 오브젝트 생성
+//        JSONObject urlObj = new JSONObject();
+//        urlObj.put("web_url", "https://developers.kakao.com");
+//        urlObj.put("mobile_web_url", "https://developers.kakao.com");
+//
+//        JSONObject templateObj = new JSONObject();
+//        templateObj.put("object_type", "text");
+//        templateObj.put("text", "테스트 메시지 입니다.");
+//        templateObj.put("link",urlObj);
+//
+//        //HttpBody 오브젝트 생성
+//        //원래는 바디에 넣을 데이터는 다 변수로 담아야 하지만, 테스트를 위해서 직접 박아넣음
+//        MultiValueMap<String, String> msgparams = new LinkedMultiValueMap<>();
+//        msgparams.add("template_object", templateObj.toString());
+//
+//        //HttpHeader와 HttpBody를 하나의 오브젝트에 담기
+//        //exchange 함수가 HttpEntity를 받도록 되어있기 때문에 해당 오브젝트로 넣어줌
+//        HttpEntity<MultiValueMap<String, String>> msgTokenRequest = new HttpEntity<>(msgparams, msgheaders);
+//
+//        //Http 요청하기 - Post 방식으로 - Response 변수의 응답을 받음
+//        ResponseEntity<String> msgResponse = msgrt.exchange("https://kapi.kakao.com/v2/api/talk/memo/default/send", HttpMethod.POST,
+//                msgTokenRequest, String.class);
 
         System.out.println("로그인 처리 완료");
 
-        return "redirect:/";
+        return "user/updateForm";
     }
 }
