@@ -17,8 +17,13 @@ public class NcrApiController {
     @PostMapping("/ncr/insert")
     public ResponseDto<Integer> save(@RequestBody NcrData ncrData) {
         System.out.println("ncr API Test");
-        String ncr = ncrData.getRoot().getContainerName();
-        System.out.println(ncr);
+
+        System.out.println(ncrData.getRoot().getCompany());
+        System.out.println(ncrData.getRoot().getQty());
+        System.out.println(ncrData.getRoot().getWorkOrderNo());
+        System.out.println(ncrData.getRoot().getProductDate());
+        System.out.println(ncrData.getRoot().getProductItemCode());
+        System.out.println(ncrData.getRoot().getContainerName());
 
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1); //200 = 성공적으로 통신했다는 약어, OK를 날릴경우 200을 날림
     }
