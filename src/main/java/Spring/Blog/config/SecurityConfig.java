@@ -81,7 +81,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests(request -> request
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers("/status", "/image/**", "/css/**", "/auth/**","/js/**").permitAll()
+                        .requestMatchers("/status", "/image/**", "/css/**", "/auth/**","/js/**","/ncr/**").permitAll()
                         .anyRequest().authenticated()
                 )
 
